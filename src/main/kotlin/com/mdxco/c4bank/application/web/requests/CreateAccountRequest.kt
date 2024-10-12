@@ -1,21 +1,17 @@
 package com.mdxco.c4bank.application.web.requests
 
-import com.mdxco.c4bank.application.web.dtos.AccountAddressDTO
 import com.mdxco.c4bank.commons.constants.RegexpMatches
 import com.mdxco.c4bank.commons.constants.ResponseMessages
-import com.mdxco.c4bank.domain.entities.Account
-import com.mdxco.c4bank.domain.entities.enums.AccountStatus
+import com.mdxco.c4bank.domain.account.entities.Account
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
-import java.math.BigDecimal
-import java.util.UUID
 
 data class CreateAccountRequest(
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @Schema(description = "Account owner address")
-    var address: AccountAddressDTO,
+//    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
+//    @Schema(description = "Account owner address")
+//    var address: AccountAddressDTO,
 
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Length(min = 2, max = 120, message = ResponseMessages.FIELD_INVALID)
@@ -42,13 +38,10 @@ data class CreateAccountRequest(
         taxIdentifier = taxIdentifier.trim()
     }
 
-    fun toDomain(id: String = UUID.randomUUID().toString()) = Account(
-        address = address.toDomain(),
-        balance = BigDecimal.ZERO.plus(),
-        id = id,
+    fun toDomain() = Account(
+//        address = address.toDomain(),
         name = name,
         phone = phone,
-        taxIdentifier = taxIdentifier,
-        status = AccountStatus.ACTIVE
+        taxIdentifier = taxIdentifier
     )
 }

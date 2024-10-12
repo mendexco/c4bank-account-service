@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.domain.entities
+package com.mdxco.c4bank.domain.account.entities
 
 data class AccountAddress(
     val city: String,

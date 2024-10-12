@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.application.web
+package com.mdxco.c4bank
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class C4bankApplication
 
 fun main(args: Array<String>) {
-	runApplication<C4bankApplication>(*args)
+    runApplication<C4bankApplication>(*args)
 }
