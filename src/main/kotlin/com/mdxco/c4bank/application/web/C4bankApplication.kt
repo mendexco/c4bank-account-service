@@ -1,4 +1,4 @@
-package com.mdxco.c4bank
+package com.mdxco.c4bank.application.web
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

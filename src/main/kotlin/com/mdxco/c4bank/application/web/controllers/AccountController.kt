@@ -1,8 +1,10 @@
-package com.mdxco.c4bank.application.controllers
+package com.mdxco.c4bank.application.web.controllers
 
-import com.mdxco.c4bank.application.requests.AccountDataRequest
+import com.mdxco.c4bank.application.web.requests.CreateAccountRequest
+import com.mdxco.c4bank.domain.entities.Account
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
+import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 class AccountController {
 
     @PostMapping("/create")
-    fun createAccount(@Valid @RequestBody accountData: AccountDataRequest): ResponseEntity<AccountDataRequest> {
-        return ResponseEntity.ok(accountData)
+    fun createAccount(@Valid @RequestBody accountData: CreateAccountRequest): ResponseEntity<Account> {
+        return ResponseEntity(accountData.toDomain(), HttpStatus.CREATED)
     }
 }
