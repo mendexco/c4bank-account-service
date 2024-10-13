@@ -11,28 +11,28 @@ import jakarta.persistence.Table
 @Table(name = "address")
 data class AddressModel(
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     val id: String,
 
-    @Column(name = "city", nullable = false)
+    @Column(nullable = false)
     val city: String,
 
-    @Column(name = "country", nullable = false)
+    @Column(nullable = false)
     val country: String,
 
-    @Column(name = "neighborhood", nullable = false)
+    @Column(nullable = false)
     val neighborhood: String,
 
-    @Column(name = "number", nullable = false)
+    @Column(nullable = false)
     val number: String,
 
-    @Column(name = "postal_code", nullable = false)
+    @Column(nullable = false)
     val postalCode: String,
 
-    @Column(name = "state", nullable = false)
+    @Column(nullable = false)
     val state: String,
 
-    @Column(name = "street", nullable = false)
+    @Column(nullable = false)
     val street: String
 ) {
     fun toDomain() = Address(

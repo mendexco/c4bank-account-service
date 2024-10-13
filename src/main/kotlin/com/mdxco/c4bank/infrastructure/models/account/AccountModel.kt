@@ -17,32 +17,32 @@ import java.math.BigDecimal
 @Table(name = "account")
 data class AccountModel(
     @Version
-    @Column(name = "version", nullable = false)
+    @Column(nullable = false)
     var version: Long = 0,
 
     @Id
-    @Column(name = "id", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     val id: String,
 
-    @Column(name = "account_number", unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     val accountNumber: String,
 
     @ManyToOne
     val address: AddressModel,
 
-    @Column(name = "balance", nullable = false)
+    @Column(nullable = false)
     val balance: BigDecimal,
 
-    @Column(name = "name", nullable = false)
+    @Column(nullable = false)
     val name: String,
 
-    @Column(name = "phone", nullable = true)
+    @Column
     val phone: String?,
 
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     val status: String,
 
-    @Column(name = "tax_identifier", nullable = false)
+    @Column(nullable = false)
     val taxIdentifier: String
 ) {
     fun toDomain() = Account(
