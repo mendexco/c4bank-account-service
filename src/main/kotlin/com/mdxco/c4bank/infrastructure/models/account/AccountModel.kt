@@ -10,14 +10,22 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import jakarta.persistence.Version
 import java.math.BigDecimal
 
 @Entity
 @Table(name = "account")
 data class AccountModel(
+    @Version
+    @Column(name = "version", nullable = false)
+    var version: Long = 0,
+
     @Id
     @Column(name = "id", unique = true, nullable = false)
     val id: String,
+
+    @Column(name = "account_number", unique = true, nullable = false)
+    val accountNumber: String,
 
     @ManyToOne
     val address: AddressModel,
@@ -35,9 +43,10 @@ data class AccountModel(
     val status: String,
 
     @Column(name = "tax_identifier", nullable = false)
-    val taxIdentifier: String,
+    val taxIdentifier: String
 ) {
     fun toDomain() = Account(
+        accountNumber = accountNumber,
         address = address.toDomain(),
         id = id,
         balance = balance,
@@ -49,6 +58,7 @@ data class AccountModel(
 }
 
 fun Account.toModel() = AccountModel(
+    accountNumber = accountNumber!!,
     address = address.toModel(),
     id = id ?: ULID().nextULID(),
     balance = balance ?: BigDecimal.ZERO,

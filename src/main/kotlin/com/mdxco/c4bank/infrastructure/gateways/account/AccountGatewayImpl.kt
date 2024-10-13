@@ -17,4 +17,8 @@ class AccountGatewayImpl(
     override fun createAccount(account: Account): Account {
         return accountRepository.save(account.toModel()).toDomain()
     }
+
+    override fun getLatestAccountNumber(): String? {
+        return accountRepository.findTopByOrderByIdDesc()?.accountNumber
+    }
 }

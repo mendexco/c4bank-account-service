@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository
 @Repository
 interface AccountRepository : JpaRepository<AccountModel, String> {
     fun existsByTaxIdentifier(taxIdentifier: String): Boolean
+    fun findTopByOrderByIdDesc(): AccountModel?
 }
