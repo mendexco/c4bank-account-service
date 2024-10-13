@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.infrastructure.h2.repositories.address.models
+package com.mdxco.c4bank.infrastructure.models.address
 
 import com.mdxco.c4bank.domain.account.entities.Address
 import de.huxhorn.sulky.ulid.ULID

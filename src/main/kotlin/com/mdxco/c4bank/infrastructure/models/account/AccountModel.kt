@@ -1,9 +1,9 @@
-package com.mdxco.c4bank.infrastructure.h2.repositories.account.models
+package com.mdxco.c4bank.infrastructure.models.account
 
 import com.mdxco.c4bank.domain.account.entities.Account
 import com.mdxco.c4bank.domain.account.entities.enums.AccountStatus
-import com.mdxco.c4bank.infrastructure.h2.repositories.address.models.AddressModel
-import com.mdxco.c4bank.infrastructure.h2.repositories.address.models.toModel
+import com.mdxco.c4bank.infrastructure.models.address.AddressModel
+import com.mdxco.c4bank.infrastructure.models.address.toModel
 import de.huxhorn.sulky.ulid.ULID
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -28,8 +28,8 @@ data class AccountModel(
     @Column(name = "name", nullable = false)
     val name: String,
 
-    @Column(name = "phone", nullable = false)
-    val phone: String,
+    @Column(name = "phone", nullable = true)
+    val phone: String?,
 
     @Column(name = "status", nullable = false)
     val status: String,

@@ -1,6 +1,5 @@
 package com.mdxco.c4bank.application.web.requests
 
-import com.mdxco.c4bank.application.web.dtos.AccountAddressDTO
 import com.mdxco.c4bank.commons.constants.RegexpMatches
 import com.mdxco.c4bank.commons.constants.ResponseMessages
 import com.mdxco.c4bank.domain.account.entities.Account
@@ -9,10 +8,10 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
-data class CreateAccountRequest(
+data class AccountRequest(
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @Schema(description = "Account owner address")
-    var address: AccountAddressDTO,
+    val address: AccountAddressRequest,
 
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Length(min = 2, max = 120, message = ResponseMessages.FIELD_INVALID)
@@ -23,10 +22,9 @@ data class CreateAccountRequest(
     @Schema(description = "Account owner full name", example = "André Cocão")
     var name: String,
 
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Pattern(regexp = RegexpMatches.PHONE_NUMBER, message = ResponseMessages.FIELD_INVALID)
     @Schema(description = "Phone number without country code", example = "11988885555")
-    var phone: String,
+    var phone: String?,
 
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Pattern(regexp = RegexpMatches.TAX_IDENTIFIER, message = ResponseMessages.FIELD_INVALID)
@@ -35,7 +33,7 @@ data class CreateAccountRequest(
 ) {
     init {
         name = name.trim()
-        phone = phone.trim()
+        phone = phone?.trim()
         taxIdentifier = taxIdentifier.trim()
     }
 

@@ -8,7 +8,7 @@ data class Account(
     val balance: BigDecimal? = null,
     val id: String? = null,
     val name: String,
-    val phone: String,
+    val phone: String? = null,
     val status: AccountStatus? = null,
     val taxIdentifier: String
 )

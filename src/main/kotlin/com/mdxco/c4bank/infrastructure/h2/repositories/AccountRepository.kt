@@ -1,6 +1,6 @@
-package com.mdxco.c4bank.infrastructure.h2.repositories.account
+package com.mdxco.c4bank.infrastructure.h2.repositories
 
-import com.mdxco.c4bank.infrastructure.h2.repositories.account.models.AccountModel
+import com.mdxco.c4bank.infrastructure.models.account.AccountModel
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

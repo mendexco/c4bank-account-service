@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.application.web.dtos
+package com.mdxco.c4bank.application.web.requests
 
 import com.mdxco.c4bank.commons.constants.RegexpMatches
 import com.mdxco.c4bank.commons.constants.ResponseMessages
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
-data class AccountAddressDTO(
+data class AccountAddressRequest(
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_INVALID)

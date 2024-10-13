@@ -2,8 +2,8 @@ package com.mdxco.c4bank.infrastructure.gateways.address
 
 import com.mdxco.c4bank.domain.account.entities.Address
 import com.mdxco.c4bank.domain.account.gateways.AddressGateway
-import com.mdxco.c4bank.infrastructure.h2.repositories.address.AddressRepository
-import com.mdxco.c4bank.infrastructure.h2.repositories.address.models.toModel
+import com.mdxco.c4bank.infrastructure.h2.repositories.AddressRepository
+import com.mdxco.c4bank.infrastructure.models.address.toModel
 import org.springframework.stereotype.Component
 
 @Component
