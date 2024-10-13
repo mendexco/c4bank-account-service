@@ -4,7 +4,7 @@ import com.mdxco.c4bank.domain.account.entities.enums.AccountStatus
 import java.math.BigDecimal
 
 data class Account(
-//    val address: AccountAddress,
+    val address: Address,
     val balance: BigDecimal? = null,
     val id: String? = null,
     val name: String,

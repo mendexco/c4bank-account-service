@@ -8,11 +8,15 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AccountService(
-    private val accountGateway: AccountGateway
+    private val accountGateway: AccountGateway,
 ) {
+    fun checkIfAccountIsCreated(taxIdentifier: String): Boolean {
+        return accountGateway.checkIfAccountIsCreated(taxIdentifier)
+    }
+
     @Transactional
     fun createAccount(account: Account): Account {
-        if (accountGateway.checkIfAccountIsCreated(account.taxIdentifier)) {
+        if (checkIfAccountIsCreated(account.taxIdentifier)) {
             throw AccountAlreadyExists(account.taxIdentifier)
         }
 

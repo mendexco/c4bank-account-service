@@ -1,5 +1,6 @@
 package com.mdxco.c4bank.application.web.requests
 
+import com.mdxco.c4bank.application.web.dtos.AccountAddressDTO
 import com.mdxco.c4bank.commons.constants.RegexpMatches
 import com.mdxco.c4bank.commons.constants.ResponseMessages
 import com.mdxco.c4bank.domain.account.entities.Account
@@ -9,9 +10,9 @@ import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
 data class CreateAccountRequest(
-//    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-//    @Schema(description = "Account owner address")
-//    var address: AccountAddressDTO,
+    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
+    @Schema(description = "Account owner address")
+    var address: AccountAddressDTO,
 
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @field:Length(min = 2, max = 120, message = ResponseMessages.FIELD_INVALID)
@@ -39,7 +40,7 @@ data class CreateAccountRequest(
     }
 
     fun toDomain() = Account(
-//        address = address.toDomain(),
+        address = address.toDomain(),
         name = name,
         phone = phone,
         taxIdentifier = taxIdentifier

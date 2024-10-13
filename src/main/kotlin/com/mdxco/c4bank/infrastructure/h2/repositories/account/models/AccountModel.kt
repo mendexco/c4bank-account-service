@@ -2,12 +2,13 @@ package com.mdxco.c4bank.infrastructure.h2.repositories.account.models
 
 import com.mdxco.c4bank.domain.account.entities.Account
 import com.mdxco.c4bank.domain.account.entities.enums.AccountStatus
+import com.mdxco.c4bank.infrastructure.h2.repositories.address.models.AddressModel
+import com.mdxco.c4bank.infrastructure.h2.repositories.address.models.toModel
 import de.huxhorn.sulky.ulid.ULID
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
+import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
 import java.math.BigDecimal
 
@@ -15,9 +16,11 @@ import java.math.BigDecimal
 @Table(name = "account")
 data class AccountModel(
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", unique = true, nullable = false)
     val id: String,
+
+    @ManyToOne
+    val address: AddressModel,
 
     @Column(name = "balance", nullable = false)
     val balance: BigDecimal,
@@ -29,14 +32,13 @@ data class AccountModel(
     val phone: String,
 
     @Column(name = "status", nullable = false)
-//    val status: String = AccountStatus.ACTIVE.name,
     val status: String,
 
     @Column(name = "tax_identifier", nullable = false)
     val taxIdentifier: String,
 ) {
     fun toDomain() = Account(
-//        address = AccountAddress(),
+        address = address.toDomain(),
         id = id,
         balance = balance,
         name = name,
@@ -47,7 +49,7 @@ data class AccountModel(
 }
 
 fun Account.toModel() = AccountModel(
-//    address = address,
+    address = address.toModel(),
     id = id ?: ULID().nextULID(),
     balance = balance ?: BigDecimal.ZERO,
     name = name,
