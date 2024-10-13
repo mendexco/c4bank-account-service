@@ -1,7 +1,7 @@
 package com.mdxco.c4bank.domain.account.services
 
 import com.mdxco.c4bank.domain.account.entities.Account
-import com.mdxco.c4bank.domain.account.exceptions.AccountAlreadyExists
+import com.mdxco.c4bank.domain.account.exceptions.AccountAlreadyExistsException
 import com.mdxco.c4bank.domain.account.gateways.AccountGateway
 import com.mdxco.c4bank.domain.account.helpers.AccountHelpers
 import java.util.concurrent.locks.ReentrantLock
@@ -23,10 +23,14 @@ class AccountService(
 
         try {
             if (accountHelpers.checkIfAccountIsCreated(account.taxIdentifier)) {
-                throw AccountAlreadyExists(account.taxIdentifier)
+                throw AccountAlreadyExistsException(taxIdentifier = account.taxIdentifier)
             }
 
-            return accountGateway.createAccount(account.copy(accountNumber = accountHelpers.generateNextAccountNumber()))
+            val accountWithAccountNumber = account.copy(
+                accountNumber = accountHelpers.generateNextAccountNumber()
+            )
+
+            return accountGateway.createAccount(accountWithAccountNumber)
         } finally {
             lock.unlock()
         }

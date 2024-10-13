@@ -12,25 +12,25 @@ import org.hibernate.validator.constraints.Length
 data class AccountAddressRequest(
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_INVALID)
+    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @Schema(description = "City name", example = "São Paulo")
     var city: String,
 
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 60, message = ResponseMessages.FIELD_INVALID)
+    @field:Length(min = 2, max = 60, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @Schema(description = "Country name", example = "Brazil")
     var country: String,
 
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_INVALID)
+    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @Schema(description = "Neighborhood name", example = "Vila Mariana")
     var neighborhood: String,
 
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 1, max = 10, message = ResponseMessages.FIELD_INVALID)
+    @field:Length(min = 1, max = 10, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @Schema(description = "Residence number", example = "123")
     var number: String,
 
@@ -48,7 +48,7 @@ data class AccountAddressRequest(
 
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_INVALID)
+    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @Schema(description = "Street name", example = "Rua Vergueiro")
     var street: String
 ) {
