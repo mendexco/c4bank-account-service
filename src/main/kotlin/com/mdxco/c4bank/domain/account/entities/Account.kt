@@ -13,3 +13,9 @@ data class Account(
     val status: AccountStatus? = null,
     val taxIdentifier: String
 )
+
+data class AccountUpdate(
+    val address: Address? = null,
+    val id: String,
+    val phone: String? = null
+)

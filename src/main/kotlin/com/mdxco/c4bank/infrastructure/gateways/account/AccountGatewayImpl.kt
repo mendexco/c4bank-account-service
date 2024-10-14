@@ -14,11 +14,15 @@ class AccountGatewayImpl(
         return accountRepository.existsByTaxIdentifier(taxIdentifier)
     }
 
-    override fun createAccount(account: Account): Account {
-        return accountRepository.save(account.toModel()).toDomain()
-    }
-
     override fun getLatestAccountNumber(): String? {
         return accountRepository.findTopByOrderByIdDesc()?.accountNumber
+    }
+
+    override fun getById(id: String): Account? {
+        return accountRepository.findById(id).orElse(null)?.toDomain()
+    }
+
+    override fun saveAccount(account: Account): Account {
+        return accountRepository.save(account.toModel()).toDomain()
     }
 }

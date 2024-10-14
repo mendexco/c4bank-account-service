@@ -48,7 +48,7 @@ class AccountHelpers(
      * @param taxIdentifier the tax identifier of the account
      * @return true if the account is created, false otherwise
      */
-    fun checkIfAccountIsCreated(taxIdentifier: String): Boolean {
+    fun isAccountCreated(taxIdentifier: String): Boolean {
         return accountGateway.checkIfAccountIsCreated(taxIdentifier)
     }
 }

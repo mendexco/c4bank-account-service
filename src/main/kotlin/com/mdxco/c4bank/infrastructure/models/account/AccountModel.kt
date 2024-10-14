@@ -10,15 +10,14 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
-import jakarta.persistence.Version
 import java.math.BigDecimal
 
 @Entity
 @Table(name = "account")
 data class AccountModel(
-    @Version
-    @Column(nullable = false)
-    var version: Long = 0,
+//    @Version
+//    @Column(nullable = false)
+//    var version: Long = 0,
 
     @Id
     @Column(nullable = false, unique = true)

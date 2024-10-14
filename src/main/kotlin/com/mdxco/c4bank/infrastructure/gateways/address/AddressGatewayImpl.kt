@@ -14,7 +14,11 @@ class AddressGatewayImpl(
         return addressRepository.saveAndFlush(address.toModel()).toDomain()
     }
 
-    override fun getAddress(postalCode: String): Address? {
-        return addressRepository.findAddressByPostalCode(postalCode)?.toDomain()
+    override fun getAddress(id: String): Address? {
+        return addressRepository.findById(id).orElse(null)?.toDomain()
+    }
+
+    override fun getAddressesByPostalCode(postalCode: String): List<Address> {
+        return addressRepository.findAllAddressByPostalCode(postalCode).map { it.toDomain() }
     }
 }

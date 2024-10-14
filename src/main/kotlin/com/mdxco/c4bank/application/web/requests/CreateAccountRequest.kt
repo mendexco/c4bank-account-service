@@ -9,10 +9,10 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Pattern
 import org.hibernate.validator.constraints.Length
 
-data class AccountRequest(
+data class CreateAccountRequest(
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
     @Schema(description = "Account owner address")
-    val address: AccountAddressRequest,
+    val address: AccountAddressRequest? = null,
 
     @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
@@ -21,30 +21,30 @@ data class AccountRequest(
         // '\\p{L}' allows letters from any language, and '\\p{Z}' allows whitespace separators
         regexp = RegexpMatches.NAME, message = ResponseMessages.CANNOT_CONTAIN_NUMBER_OR_SPECIAL
     )
-    @Schema(description = "Account owner full name", example = "André Cocão")
-    var name: String,
+    @Schema(description = "Account owner full name", example = "Yuri Alberto")
+    var name: String? = null,
 
     @field:Length(min = 9, max = 12, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
     @field:Pattern(regexp = RegexpMatches.PHONE_NUMBER, message = ResponseMessages.FIELD_INVALID)
-    @Schema(description = "Phone number without country code", example = "11988885555")
+    @Schema(description = "Phone number without country code", example = "12928769990")
     var phone: String?,
 
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
+    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
     @field:Pattern(regexp = RegexpMatches.TAX_IDENTIFIER, message = ResponseMessages.FIELD_INVALID)
-    @Schema(description = "Account owner tax identifier", example = "55599944471")
-    var taxIdentifier: String
+    @Schema(description = "Account owner tax identifier", example = "22266611154")
+    var taxIdentifier: String? = null
 ) {
     init {
-        name = name.trim()
-        phone = phone?.trim()
-        taxIdentifier = taxIdentifier.trim()
+        name = name!!.trim()
+        phone = phone!!.trim()
+        taxIdentifier = taxIdentifier!!.trim()
     }
 
     fun toDomain() = Account(
-        address = address.toDomain(),
-        name = name,
+        address = address!!.toDomain(),
+        name = name!!,
         phone = phone,
-        taxIdentifier = taxIdentifier
+        taxIdentifier = taxIdentifier!!
     )
 }

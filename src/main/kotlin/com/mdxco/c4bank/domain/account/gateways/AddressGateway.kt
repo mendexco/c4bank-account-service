@@ -4,5 +4,6 @@ import com.mdxco.c4bank.domain.account.entities.Address
 
 interface AddressGateway {
     fun addAddress(address: Address): Address
-    fun getAddress(postalCode: String): Address?
+    fun getAddress(id: String): Address?
+    fun getAddressesByPostalCode(postalCode: String): List<Address>
 }

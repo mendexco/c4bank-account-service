@@ -9,21 +9,16 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @Operation(
-    summary = "Create a new account",
-    description = "Create a new account with the provided data"
+    summary = "Update account information",
+    description = "Update account address and/or phone number by account ID"
 )
 @ApiResponses(
     value = [
         ApiResponse(
-            responseCode = "201",
-            description = "Account created successfully",
+            responseCode = "204",
+            description = "Account updated successfully",
             content = [Content(
                 mediaType = "application/json",
-                schema = Schema(
-                    example = """{
-                        "accountNumber": "123456-7"
-                    }"""
-                )
             )],
         ),
         ApiResponse(
@@ -46,14 +41,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
             )],
         ),
         ApiResponse(
-            responseCode = "409",
-            description = "Account already exists",
+            responseCode = "422",
+            description = "Insufficient data to update account",
             content = [Content(
                 mediaType = "application/json",
                 schema = Schema(
                     example = """{
-                        "code": "ACCOUNT_ALREADY_EXISTS",
-                        "message": "Account with informed tax identifier already exists"
+                        "code": "INSUFFICIENT_DATA_TO_UPDATE",
+                        "message": "No data to update account was provided"
                     }"""
                 )
             )]
@@ -73,4 +68,4 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
         )
     ]
 )
-annotation class CreateAccountDocs()
+annotation class UpdateAccountDocs()
