@@ -1,6 +1,8 @@
 package com.mdxco.c4bank.application.web.controllers
 
 import com.mdxco.c4bank.application.web.docs.CreateAccountDocs
+import com.mdxco.c4bank.application.web.docs.DeactivateAccountDocs
+import com.mdxco.c4bank.application.web.docs.ReactivateAccountDocs
 import com.mdxco.c4bank.application.web.docs.UpdateAccountDocs
 import com.mdxco.c4bank.application.web.requests.CreateAccountRequest
 import com.mdxco.c4bank.application.web.requests.UpdateAccountRequest
@@ -11,6 +13,8 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -30,10 +34,27 @@ class AccountController(
         return ResponseEntity(createdAccount.toCreateAccountResponse(), HttpStatus.CREATED)
     }
 
-    @PutMapping
+    @PutMapping("/{accountId}")
     @UpdateAccountDocs
-    fun updateAccount(@Valid @RequestBody accountData: UpdateAccountRequest): ResponseEntity<Void> {
-        accountFacade.updateAccount(accountData.toDomain())
+    fun updateAccount(
+        @Valid @PathVariable accountId: String,
+        @Valid @RequestBody accountData: UpdateAccountRequest
+    ): ResponseEntity<Void> {
+        accountFacade.updateAccount(accountId, accountData.toDomain())
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @DeleteMapping("/{accountId}")
+    @DeactivateAccountDocs
+    fun deleteAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+        accountFacade.deactivateAccount(accountId)
+        return ResponseEntity(HttpStatus.NO_CONTENT)
+    }
+
+    @PutMapping("/{accountId}/reactivate")
+    @ReactivateAccountDocs
+    fun reactivateAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+        accountFacade.reactivateAccount(accountId)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 }

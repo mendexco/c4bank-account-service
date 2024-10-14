@@ -2,7 +2,9 @@ package com.mdxco.c4bank.domain.account.services
 
 import com.mdxco.c4bank.domain.account.entities.Account
 import com.mdxco.c4bank.domain.account.entities.AccountUpdate
+import com.mdxco.c4bank.domain.account.entities.enums.AccountStatus
 import com.mdxco.c4bank.domain.account.exceptions.AccountAlreadyExistsException
+import com.mdxco.c4bank.domain.account.exceptions.AccountNotFoundException
 import com.mdxco.c4bank.domain.account.gateways.AccountGateway
 import com.mdxco.c4bank.domain.account.helpers.AccountHelpers
 import org.springframework.stereotype.Service
@@ -39,5 +41,33 @@ class AccountService(
         )
 
         return updatedAccount
+    }
+
+    private fun toggleAccountStatus(accountId: String, status: AccountStatus): Account {
+        val account = getAccount(accountId) ?: throw AccountNotFoundException()
+
+        if (account.status == status) {
+            return account
+        }
+
+        val updatedAccount = accountGateway.saveAccount(
+            account.copy(
+                status = status
+            )
+        )
+
+        return updatedAccount
+    }
+
+    @Transactional
+    fun deactivateAccount(accountId: String): Account {
+        val deactivatedAccount = toggleAccountStatus(accountId, AccountStatus.INACTIVE)
+        return deactivatedAccount
+    }
+
+    @Transactional
+    fun reactivateAccount(accountId: String): Account {
+        val reactivatedAccount = toggleAccountStatus(accountId, AccountStatus.ACTIVE)
+        return reactivatedAccount
     }
 }

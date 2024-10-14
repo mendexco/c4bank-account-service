@@ -16,6 +16,5 @@ data class Account(
 
 data class AccountUpdate(
     val address: Address? = null,
-    val id: String,
     val phone: String? = null
 )

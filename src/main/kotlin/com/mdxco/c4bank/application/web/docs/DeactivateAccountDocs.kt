@@ -10,8 +10,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 @Target(AnnotationTarget.FUNCTION)
 @Retention(AnnotationRetention.RUNTIME)
 @Operation(
-    summary = "Update account information",
-    description = "Update account address and/or phone number by account ID"
+    summary = "Deactivate account",
+    description = "Change account status to INACTIVE by account ID"
 )
 @Parameter(
     name = "accountId",
@@ -22,28 +22,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
     value = [
         ApiResponse(
             responseCode = "204",
-            description = "Account updated successfully",
+            description = "Account deactivated successfully",
             content = [Content(
                 mediaType = "application/json",
-            )],
-        ),
-        ApiResponse(
-            responseCode = "400",
-            description = "Invalid request data",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(
-                    example = """{
-                        "code": "INVALID_ARGUMENT",
-                        "message": "One or more fields were incorrectly informed",
-                        "body": {
-                            "phone": [
-                              "Invalid field",
-                              "Field length not valid"
-                            ]
-                        }
-                    }"""
-                )
             )],
         ),
         ApiResponse(
@@ -55,19 +36,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
                     example = """{
                         "code": "ACCOUNT_NOT_FOUND",
                         "message": "Account not found by informed ID"
-                    }"""
-                )
-            )]
-        ),
-        ApiResponse(
-            responseCode = "422",
-            description = "Insufficient data to update account, when there is no address or phone number informed",
-            content = [Content(
-                mediaType = "application/json",
-                schema = Schema(
-                    example = """{
-                        "code": "INSUFFICIENT_DATA_TO_UPDATE",
-                        "message": "No data to update account was provided"
                     }"""
                 )
             )]
@@ -87,4 +55,4 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
         )
     ]
 )
-annotation class UpdateAccountDocs()
+annotation class DeactivateAccountDocs()
