@@ -14,9 +14,6 @@ data class Address(
         listOf(id, city, country, neighborhood, number, postalCode, state, street).all { it.isNullOrBlank() }
 
     fun isEqual(other: Address?): Boolean {
-        println("this: $this")
-        println("other: $other")
-        println(this.copy(id = null) == other?.copy(id = null))
         return this.copy(id = null) == other?.copy(id = null)
     }
 }

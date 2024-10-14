@@ -21,4 +21,8 @@ class AddressGatewayImpl(
     override fun getAddressesByPostalCode(postalCode: String): List<Address> {
         return addressRepository.findAllAddressByPostalCode(postalCode).map { it.toDomain() }
     }
+
+    override fun removeUnusedAddress(addressId: String) {
+        addressRepository.deleteById(addressId)
+    }
 }

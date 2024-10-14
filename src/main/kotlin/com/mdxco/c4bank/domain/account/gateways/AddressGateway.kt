@@ -6,4 +6,5 @@ interface AddressGateway {
     fun addAddress(address: Address): Address
     fun getAddress(id: String): Address?
     fun getAddressesByPostalCode(postalCode: String): List<Address>
+    fun removeUnusedAddress(addressId: String)
 }

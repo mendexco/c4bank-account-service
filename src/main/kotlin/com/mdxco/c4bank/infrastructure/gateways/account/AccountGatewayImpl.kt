@@ -14,6 +14,10 @@ class AccountGatewayImpl(
         return accountRepository.existsByTaxIdentifier(taxIdentifier)
     }
 
+    override fun checkIfAddressIsInUse(addressId: String): Boolean {
+        return accountRepository.existsByAddressId(addressId)
+    }
+
     override fun getLatestAccountNumber(): String? {
         return accountRepository.findTopByOrderByIdDesc()?.accountNumber
     }

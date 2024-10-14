@@ -51,4 +51,13 @@ class AccountHelpers(
     fun isAccountCreated(taxIdentifier: String): Boolean {
         return accountGateway.checkIfAccountIsCreated(taxIdentifier)
     }
+
+    /**
+     * This method checks if an address is in use
+     * @param addressId the address id
+     * @return true if the address is in use, false otherwise
+     */
+    fun isAddressInUse(addressId: String): Boolean {
+        return accountGateway.checkIfAddressIsInUse(addressId)
+    }
 }

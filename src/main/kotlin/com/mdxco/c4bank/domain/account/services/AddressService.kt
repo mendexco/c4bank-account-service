@@ -2,12 +2,14 @@ package com.mdxco.c4bank.domain.account.services
 
 import com.mdxco.c4bank.domain.account.entities.Address
 import com.mdxco.c4bank.domain.account.gateways.AddressGateway
+import com.mdxco.c4bank.infrastructure.messaging.address.AddressMessageSender
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AddressService(
-    private val addressGateway: AddressGateway
+    private val addressGateway: AddressGateway,
+    private val addressMessageSender: AddressMessageSender
 ) {
     fun getAddress(id: String): Address? {
         return addressGateway.getAddress(id)
@@ -15,6 +17,11 @@ class AddressService(
 
     fun getAddressesByPostalCode(postalCode: String): List<Address> {
         return addressGateway.getAddressesByPostalCode(postalCode)
+    }
+
+    @Transactional
+    fun removeUnusedAddress(addressId: String) {
+        addressGateway.removeUnusedAddress(addressId)
     }
 
     @Transactional
@@ -33,8 +40,11 @@ class AddressService(
         if (addressUpdates == null) return addressFoundById
         if (addressFoundById.isEqual(addressUpdates)) return addressFoundById
 
-        // TODO: add to queue a scanning process to check if the old addressFoundById.id is still in use, and if not, delete it
+        val updatedAddress = addAddress(addressUpdates)
 
-        return addAddress(addressUpdates)
+        // Adds to queue a scanning process to check if the old addressFoundById.id is still in use, and if not, delete it
+        addressMessageSender.verifyAddressUses(addressFoundById.id!!)
+
+        return updatedAddress
     }
 }

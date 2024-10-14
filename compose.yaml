@@ -1,0 +1,9 @@
+services:
+  rabbitmq:
+    container_name: 'rabbit-mq'
+    image: 'rabbitmq:latest'
+    environment:
+      - 'RABBITMQ_DEFAULT_USER=mdxcoMQUsername'
+      - 'RABBITMQ_DEFAULT_PASS=mdxcoMQPassword'
+    ports:
+      - '5672:5672'
