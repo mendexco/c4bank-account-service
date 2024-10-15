@@ -11,8 +11,8 @@ View docs now at **_pending deploy link_**
 #
 
 - RESTful API that simulates basic banking operations, such as user management and transactions
-- This project was generated with [Spring Initialzr](https://start.spring.io/) version 18.2.5.
-    - **Language:** Kotlin
+- This project was generated with [Spring Initialzr](https://start.spring.io/)
+    - **Language:** Kotlin (1.9.25)
     - **Project:** Gradle - Kotlin
     - **Spring Boot:** 3.3.4
     - **Packaging:** Jar
