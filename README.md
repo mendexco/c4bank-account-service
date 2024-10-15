@@ -42,7 +42,8 @@ View docs now at **_pending deploy link_**
 <div align="center" style="display: inline_block;">
   <img align="center" alt="kotlin" height="90" width="120" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg">
   <img align="center" alt="spring" height="90" width="120" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original-wordmark.svg">
-  <img align="center" alt="rabbitmq" height="90" width="120" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rabbitmq/rabbitmq-original.svg">
+  <img align="center" alt="rabbitmq" height="90" width="120" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rabbitmq/rabbitmq-original-wordmark.svg">
+  <img align="center" alt="kafka" height="90" width="120" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apachekafka/apachekafka-original-wordmark.svg">
 </div>
 
 ##
