@@ -11,7 +11,7 @@ services:
     container_name: 'c4bank-jar-local-from-dockerfile'
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile # needs to run './gradlew build' before
     ports:
       - '8081:8081'
     depends_on:
