@@ -2,14 +2,15 @@ package com.mdxco.c4bank.domain.account.services
 
 import com.mdxco.c4bank.domain.account.entities.Address
 import com.mdxco.c4bank.domain.account.gateways.AddressGateway
-import com.mdxco.c4bank.infrastructure.messaging.address.AddressMessageSender
+import com.mdxco.c4bank.domain.account.messaging.address.AddressProducer
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AddressService(
     private val addressGateway: AddressGateway,
-    private val addressMessageSender: AddressMessageSender
+    @Qualifier("AddressProducerKafkaImpl") private val addressProducer: AddressProducer
 ) {
     fun getAddress(id: String): Address? {
         return addressGateway.getAddress(id)
@@ -43,7 +44,7 @@ class AddressService(
         val updatedAddress = addAddress(addressUpdates)
 
         // Adds to queue a scanning process to check if the old addressFoundById.id is still in use, and if not, delete it
-        addressMessageSender.verifyAddressUses(addressFoundById.id!!)
+        addressProducer.verifyAddressUses(addressFoundById.id!!)
 
         return updatedAddress
     }
