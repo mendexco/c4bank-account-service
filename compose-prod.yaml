@@ -1,0 +1,19 @@
+name: c4bank-from-remote-image
+
+services:
+  rabbitmq:
+    container_name: 'rabbit-mq-from-remote-image'
+    image: 'rabbitmq:latest'
+    ports:
+      - '5674:5674'
+
+  c4bank:
+    container_name: 'c4bank-jar-from-remote-image'
+    image: 'mendesco/c4bank:0.0.1'
+    ports:
+      - '7000:7000'
+    depends_on:
+      - rabbitmq
+    environment:
+      SERVER_PORT: 7000
+      RABBITMQ_PORT: 5674

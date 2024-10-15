@@ -1,0 +1,21 @@
+name: c4bank-local-from-dockerfile
+
+services:
+  rabbitmq:
+    container_name: 'rabbit-mq-local-from-dockerfile'
+    image: 'rabbitmq:latest'
+    ports:
+      - '5673:5673'
+
+  c4bank:
+    container_name: 'c4bank-jar-local-from-dockerfile'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8081:8081'
+    depends_on:
+      - rabbitmq
+    environment:
+      SERVER_PORT: 8081
+      RABBITMQ_PORT: 5673

@@ -1,9 +1,8 @@
+name: c4bank-local
+
 services:
   rabbitmq:
-    container_name: 'rabbit-mq'
+    container_name: 'rabbit-mq-local'
     image: 'rabbitmq:latest'
-    environment:
-      - 'RABBITMQ_DEFAULT_USER=mdxcoMQUsername'
-      - 'RABBITMQ_DEFAULT_PASS=mdxcoMQPassword'
     ports:
       - '5672:5672'
