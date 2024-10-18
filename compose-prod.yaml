@@ -1,11 +1,36 @@
 name: c4bank-from-remote-image
 
 services:
-  rabbitmq:
-    container_name: 'rabbit-mq-from-remote-image'
-    image: 'rabbitmq:latest'
+  zookeeper:
+    image: 'confluentinc/cp-zookeeper:latest'
+    container_name: 'zookeeper-from-remote-image'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2183
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - '5674:5674'
+      - '2183:2183'
+    volumes:
+      - zookeeper_vol:/var/lib/zookeeper/data
+      - zookeeper_vol:/var/lib/zookeeper/log
+      - zookeeper_vol:/etc/zookeeper/secrets
+
+  kafka:
+    image: 'confluentinc/cp-kafka:latest'
+    container_name: 'kafka-from-remote-image'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2183
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9094
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - '9094:9094'
+    volumes:
+      - kafka_vol:/var/lib/kafka/data
+      - kafka_vol:/var/lib/kafka/log
+      - kafka_vol:/etc/kafka/secrets
 
   c4bank:
     container_name: 'c4bank-jar-from-remote-image'
@@ -13,7 +38,13 @@ services:
     ports:
       - '7000:7000'
     depends_on:
-      - rabbitmq
+      - kafka
     environment:
       SERVER_PORT: 7000
-      RABBITMQ_PORT: 5674
+      KAFKA_PORT: 9094
+      KAFKA_URL: localhost
+      ZOOKEEPER_PORT: 2183
+
+volumes:
+  zookeeper_vol:
+  kafka_vol:

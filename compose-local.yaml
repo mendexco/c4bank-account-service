@@ -1,21 +1,52 @@
 name: c4bank-local-from-dockerfile
 
 services:
-  rabbitmq:
-    container_name: 'rabbit-mq-local-from-dockerfile'
-    image: 'rabbitmq:latest'
+  zookeeper:
+    image: 'confluentinc/cp-zookeeper:latest'
+    container_name: 'zookeeper-local-from-dockerfile'
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2182
+      ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - '5673:5673'
+      - '2182:2182'
+    volumes:
+      - zookeeper_vol:/var/lib/zookeeper/data
+      - zookeeper_vol:/var/lib/zookeeper/log
+      - zookeeper_vol:/etc/zookeeper/secrets
+
+  kafka:
+    image: 'confluentinc/cp-kafka:latest'
+    container_name: 'kafka-local-from-dockerfile'
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2182
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - '9093:9093'
+    volumes:
+      - kafka_vol:/var/lib/kafka/data
+      - kafka_vol:/var/lib/kafka/log
+      - kafka_vol:/etc/kafka/secrets
 
   c4bank:
     container_name: 'c4bank-jar-local-from-dockerfile'
     build:
       context: .
-      dockerfile: Dockerfile # needs to run './gradlew build' before
+      dockerfile: Dockerfile # needs to run './gradlew build' before and exclude current image
     ports:
       - '8081:8081'
     depends_on:
-      - rabbitmq
+      - kafka
     environment:
       SERVER_PORT: 8081
-      RABBITMQ_PORT: 5673
+      KAFKA_PORT: 9093
+      KAFKA_URL: localhost
+      ZOOKEEPER_PORT: 2182
+
+volumes:
+  zookeeper_vol:
+  kafka_vol:

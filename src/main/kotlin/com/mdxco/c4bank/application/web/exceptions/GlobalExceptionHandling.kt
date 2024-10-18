@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalExceptionHandling {
 //    @ExceptionHandler(Exception::class)
 //    fun handleException(e: Exception): ResponseEntity<ResponseCode> {
-//        println(e)
+//        ExceptionHelpers.logger.error(e.stackTraceToString())
 //        return ResponseEntity(
 //            ResponseCode(
 //                code = ErrorCodes.INTERNAL_SERVER_ERROR.name,
@@ -26,7 +26,7 @@ class GlobalExceptionHandling {
 //
 //    @ExceptionHandler(RuntimeException::class)
 //    fun handleException(e: RuntimeException): ResponseEntity<ResponseCode> {
-//        println(e)
+//        ExceptionHelpers.logger.error(e.stackTraceToString())
 //        return ResponseEntity(
 //            ResponseCode(
 //                code = ErrorCodes.INTERNAL_SERVER_ERROR.name,
@@ -38,7 +38,7 @@ class GlobalExceptionHandling {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(e: MethodArgumentNotValidException): ResponseEntity<ResponseCodeWithBodyMap> {
-        println(e)
+        ExceptionHelpers.logger.error(e.stackTraceToString())
 
         val errors = e.bindingResult.fieldErrors.groupBy({ it.field }, { it.defaultMessage ?: "Invalid value" })
 
@@ -54,28 +54,28 @@ class GlobalExceptionHandling {
 
     @ExceptionHandler(AccountAlreadyExistsException::class)
     fun handleAccountAlreadyExistsException(e: AccountAlreadyExistsException): ResponseEntity<ResponseCode> {
-        println(e)
+        ExceptionHelpers.logger.error(e.stackTraceToString())
 
         return ExceptionHelpers.responseEntityWithErrorCode(e.code!!)
     }
 
     @ExceptionHandler(AccountNotFoundException::class)
     fun handleAccountNotFoundException(e: AccountNotFoundException): ResponseEntity<ResponseCode> {
-        println(e)
+        ExceptionHelpers.logger.error(e.stackTraceToString())
 
         return ExceptionHelpers.responseEntityWithErrorCode(e.code!!)
     }
 
     @ExceptionHandler(AddressNotFoundException::class)
     fun handleAddressNotFoundException(e: AddressNotFoundException): ResponseEntity<ResponseCode> {
-        println(e)
+        ExceptionHelpers.logger.error(e.stackTraceToString())
 
         return ExceptionHelpers.responseEntityWithErrorCode(e.code!!)
     }
 
     @ExceptionHandler(InsufficientDataToUpdateException::class)
     fun handleInsufficientDataToUpdateException(e: InsufficientDataToUpdateException): ResponseEntity<ResponseCode> {
-        println(e)
+        ExceptionHelpers.logger.error(e.stackTraceToString())
 
         return ExceptionHelpers.responseEntityWithErrorCode(e.code!!)
     }

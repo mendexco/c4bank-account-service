@@ -1,5 +1,6 @@
 package com.mdxco.c4bank.application.web.controllers
 
+import com.mdxco.c4bank.application.utils.AppHelpers
 import com.mdxco.c4bank.application.web.docs.CreateAccountDocs
 import com.mdxco.c4bank.application.web.docs.DeactivateAccountDocs
 import com.mdxco.c4bank.application.web.docs.ReactivateAccountDocs
@@ -30,6 +31,8 @@ class AccountController(
     @PostMapping
     @CreateAccountDocs
     fun createAccount(@Valid @RequestBody accountData: CreateAccountRequest): ResponseEntity<CreateAccountResponse> {
+        AppHelpers.logger.info("Creating account")
+
         val createdAccount = accountFacade.createAccount(accountData.toDomain())
         return ResponseEntity(createdAccount.toCreateAccountResponse(), HttpStatus.CREATED)
     }
@@ -40,6 +43,8 @@ class AccountController(
         @Valid @PathVariable accountId: String,
         @Valid @RequestBody accountData: UpdateAccountRequest
     ): ResponseEntity<Void> {
+        AppHelpers.logger.info("Updating account by accountId: $accountId")
+
         accountFacade.updateAccount(accountId, accountData.toDomain())
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
@@ -47,6 +52,8 @@ class AccountController(
     @DeleteMapping("/{accountId}")
     @DeactivateAccountDocs
     fun deleteAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+        AppHelpers.logger.info("Deactivating account by accountId: $accountId")
+
         accountFacade.deactivateAccount(accountId)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }
@@ -54,6 +61,8 @@ class AccountController(
     @PutMapping("/{accountId}/reactivate")
     @ReactivateAccountDocs
     fun reactivateAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+        AppHelpers.logger.info("Reactivating account by accountId: $accountId")
+        
         accountFacade.reactivateAccount(accountId)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }

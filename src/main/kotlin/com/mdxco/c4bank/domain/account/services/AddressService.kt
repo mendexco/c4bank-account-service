@@ -3,14 +3,13 @@ package com.mdxco.c4bank.domain.account.services
 import com.mdxco.c4bank.domain.account.entities.Address
 import com.mdxco.c4bank.domain.account.gateways.AddressGateway
 import com.mdxco.c4bank.domain.account.messaging.address.AddressProducer
-import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class AddressService(
     private val addressGateway: AddressGateway,
-    @Qualifier("AddressProducerKafkaImpl") private val addressProducer: AddressProducer
+    private val addressProducer: AddressProducer
 ) {
     fun getAddress(id: String): Address? {
         return addressGateway.getAddress(id)

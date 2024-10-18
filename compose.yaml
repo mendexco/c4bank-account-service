@@ -5,10 +5,14 @@ services:
     image: 'confluentinc/cp-zookeeper:latest'
     container_name: 'zookeeper-local'
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
       ZOOKEEPER_TICK_TIME: 2000
     ports:
-      - '2181:2181'
+      - '${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}'
+    volumes:
+      - zookeeper_vol:/var/lib/zookeeper/data
+      - zookeeper_vol:/var/lib/zookeeper/log
+      - zookeeper_vol:/etc/zookeeper/secrets
 
   kafka:
     image: 'confluentinc/cp-kafka:latest'
@@ -17,15 +21,17 @@ services:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_URL}:${KAFKA_PORT}
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     ports:
-      - '9092:9092'
+      - '${KAFKA_PORT}:${KAFKA_PORT}'
+    volumes:
+      - kafka_vol:/var/lib/kafka/data
+      - kafka_vol:/var/lib/kafka/log
+      - kafka_vol:/etc/kafka/secrets
 
-  rabbitmq:
-    container_name: 'rabbit-mq-local'
-    image: 'rabbitmq:latest'
-    ports:
-      - '5672:5672'
+volumes:
+  zookeeper_vol:
+  kafka_vol:

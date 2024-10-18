@@ -4,9 +4,11 @@ import com.mdxco.c4bank.domain.account.messaging.address.AddressProducer
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 
-@Service("AddressProducerKafkaImpl")
-class AddressProducerImpl(private val kafkaTemplate: KafkaTemplate<String, String>) : AddressProducer {
+@Service
+class AddressProducerImpl(
+    private val kafkaTemplate: KafkaTemplate<String, Map<String, Any>>
+) : AddressProducer {
     override fun verifyAddressUses(addressId: String) {
-        kafkaTemplate.send("addressQueue", addressId)
+        kafkaTemplate.send("addressQueue", mapOf("addressId" to addressId))
     }
 }
