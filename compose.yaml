@@ -1,3 +1,4 @@
+version: '3.8'
 name: c4bank-local
 
 services:
@@ -10,9 +11,9 @@ services:
     ports:
       - '${ZOOKEEPER_PORT}:${ZOOKEEPER_PORT}'
     volumes:
-      - zookeeper_vol:/var/lib/zookeeper/data
-      - zookeeper_vol:/var/lib/zookeeper/log
-      - zookeeper_vol:/etc/zookeeper/secrets
+      - zookeeper_data_vol:/var/lib/zookeeper/data
+      - zookeeper_log_vol:/var/lib/zookeeper/log
+      - zookeeper_secrets_vol:/etc/zookeeper/secrets
 
   kafka:
     image: 'confluentinc/cp-kafka:latest'
@@ -33,5 +34,7 @@ services:
       - kafka_vol:/etc/kafka/secrets
 
 volumes:
-  zookeeper_vol:
+  zookeeper_data_vol:
+  zookeeper_log_vol:
+  zookeeper_secrets_vol:
   kafka_vol:

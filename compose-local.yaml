@@ -10,9 +10,9 @@ services:
     ports:
       - '2182:2182'
     volumes:
-      - zookeeper_vol:/var/lib/zookeeper/data
-      - zookeeper_vol:/var/lib/zookeeper/log
-      - zookeeper_vol:/etc/zookeeper/secrets
+      - zookeeper_data_vol:/var/lib/zookeeper/data
+      - zookeeper_log_vol:/var/lib/zookeeper/log
+      - zookeeper_secrets_vol:/etc/zookeeper/secrets
 
   kafka:
     image: 'confluentinc/cp-kafka:latest'
@@ -48,5 +48,7 @@ services:
       ZOOKEEPER_PORT: 2182
 
 volumes:
-  zookeeper_vol:
+  zookeeper_data_vol:
+  zookeeper_log_vol:
+  zookeeper_secrets_vol:
   kafka_vol:
