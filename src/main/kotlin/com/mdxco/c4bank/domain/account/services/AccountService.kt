@@ -6,7 +6,7 @@ import com.mdxco.c4bank.domain.account.entities.enums.AccountStatus
 import com.mdxco.c4bank.domain.account.exceptions.AccountAlreadyExistsException
 import com.mdxco.c4bank.domain.account.exceptions.AccountNotFoundException
 import com.mdxco.c4bank.domain.account.gateways.AccountGateway
-import com.mdxco.c4bank.domain.account.helpers.AccountHelpers
+import com.mdxco.c4bank.domain.account.utils.AccountHelpers
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

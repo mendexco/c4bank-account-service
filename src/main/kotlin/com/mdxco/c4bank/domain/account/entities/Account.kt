@@ -11,7 +11,8 @@ data class Account(
     val name: String,
     val phone: String? = null,
     val status: AccountStatus? = null,
-    val taxIdentifier: String
+    val taxIdentifier: String,
+    val version: Long? = null
 )
 
 data class AccountUpdate(

@@ -10,14 +10,15 @@ import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.Table
+import jakarta.persistence.Version
 import java.math.BigDecimal
 
 @Entity
 @Table(name = "account")
 data class AccountModel(
-//    @Version
-//    @Column(nullable = false)
-//    var version: Long = 0,
+    @Version
+    @Column(nullable = false)
+    val version: Long,
 
     @Id
     @Column(nullable = false, unique = true)
@@ -52,7 +53,8 @@ data class AccountModel(
         name = name,
         phone = phone,
         status = AccountStatus.valueOf(status),
-        taxIdentifier = taxIdentifier
+        taxIdentifier = taxIdentifier,
+        version = version
     )
 }
 
@@ -64,5 +66,6 @@ fun Account.toModel() = AccountModel(
     name = name,
     phone = phone,
     status = status?.name ?: AccountStatus.ACTIVE.name,
-    taxIdentifier = taxIdentifier
+    taxIdentifier = taxIdentifier,
+    version = version ?: 0
 )

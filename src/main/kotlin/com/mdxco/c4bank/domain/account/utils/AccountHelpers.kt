@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.domain.account.helpers
+package com.mdxco.c4bank.domain.account.utils
 
 import com.mdxco.c4bank.domain.account.gateways.AccountGateway
 import org.springframework.stereotype.Component

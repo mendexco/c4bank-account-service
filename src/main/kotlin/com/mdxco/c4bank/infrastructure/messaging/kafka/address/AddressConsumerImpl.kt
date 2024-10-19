@@ -1,7 +1,7 @@
 package com.mdxco.c4bank.infrastructure.messaging.kafka.address
 
 import com.mdxco.c4bank.domain.account.exceptions.AccountIdInvalidException
-import com.mdxco.c4bank.domain.account.helpers.AccountHelpers
+import com.mdxco.c4bank.domain.account.utils.AccountHelpers
 import com.mdxco.c4bank.domain.account.messaging.address.AddressConsumer
 import com.mdxco.c4bank.domain.account.services.AddressService
 import org.springframework.kafka.annotation.KafkaListener
