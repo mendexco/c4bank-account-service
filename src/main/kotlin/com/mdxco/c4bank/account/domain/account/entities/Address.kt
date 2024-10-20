@@ -8,10 +8,9 @@ data class Address(
     val number: String,
     val postalCode: String,
     val state: String,
-    val street: String
+    val street: String,
 ) {
-    fun isNullOrBlank() =
-        listOf(id, city, country, neighborhood, number, postalCode, state, street).all { it.isNullOrBlank() }
+    fun isNullOrBlank() = listOf(id, city, country, neighborhood, number, postalCode, state, street).all { it.isNullOrBlank() }
 
     fun isEqual(other: Address?): Boolean {
         return this.copy(id = null) == other?.copy(id = null)

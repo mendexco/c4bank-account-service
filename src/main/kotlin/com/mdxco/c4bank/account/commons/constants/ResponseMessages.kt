@@ -8,4 +8,3 @@ object ResponseMessages {
     const val FIELD_NOT_NULL = "Field cannot be null"
     const val FIELD_LENGTH_NOT_VALID = "Field length not valid"
 }
-

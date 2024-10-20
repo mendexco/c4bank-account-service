@@ -12,10 +12,10 @@ data class Account(
     val phone: String? = null,
     val status: AccountStatus? = null,
     val taxIdentifier: String,
-    val version: Long? = null
+    val version: Long? = null,
 )
 
 data class AccountUpdate(
     val address: Address? = null,
-    val phone: String? = null
+    val phone: String? = null,
 )

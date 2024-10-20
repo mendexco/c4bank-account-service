@@ -26,11 +26,13 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/accounts")
 @Tag(name = "Account", description = "Account management operations")
 class AccountController(
-    private val accountFacade: AccountFacade
+    private val accountFacade: AccountFacade,
 ) {
     @PostMapping
     @CreateAccountDocs
-    fun createAccount(@Valid @RequestBody accountData: CreateAccountRequest): ResponseEntity<CreateAccountResponse> {
+    fun createAccount(
+        @Valid @RequestBody accountData: CreateAccountRequest,
+    ): ResponseEntity<CreateAccountResponse> {
         AppHelpers.logger.info("Creating account")
 
         val createdAccount = accountFacade.createAccount(accountData.toDomain())
@@ -41,7 +43,7 @@ class AccountController(
     @UpdateAccountDocs
     fun updateAccount(
         @Valid @PathVariable accountId: String,
-        @Valid @RequestBody accountData: UpdateAccountRequest
+        @Valid @RequestBody accountData: UpdateAccountRequest,
     ): ResponseEntity<Void> {
         AppHelpers.logger.info("Updating account by accountId: $accountId")
 
@@ -51,7 +53,9 @@ class AccountController(
 
     @DeleteMapping("/{accountId}")
     @DeactivateAccountDocs
-    fun deleteAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+    fun deleteAccount(
+        @Valid @PathVariable accountId: String,
+    ): ResponseEntity<Void> {
         AppHelpers.logger.info("Deactivating account by accountId: $accountId")
 
         accountFacade.deactivateAccount(accountId)
@@ -60,9 +64,11 @@ class AccountController(
 
     @PutMapping("/{accountId}/reactivate")
     @ReactivateAccountDocs
-    fun reactivateAccount(@Valid @PathVariable accountId: String): ResponseEntity<Void> {
+    fun reactivateAccount(
+        @Valid @PathVariable accountId: String,
+    ): ResponseEntity<Void> {
         AppHelpers.logger.info("Reactivating account by accountId: $accountId")
-        
+
         accountFacade.reactivateAccount(accountId)
         return ResponseEntity(HttpStatus.NO_CONTENT)
     }

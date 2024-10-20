@@ -5,6 +5,7 @@ plugins {
     kotlin("plugin.spring") version kotlinVersion
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 group = "com.mdxco"
@@ -22,9 +23,20 @@ configurations {
     }
 }
 
+buildscript {
+    repositories {
+        maven("https://plugins.gradle.org/m2/")
+    }
+    dependencies {
+        classpath("org.jlleitschuh.gradle:ktlint-gradle:<current_version>")
+    }
+}
+
 repositories {
     mavenCentral()
 }
+
+apply(plugin = "org.jlleitschuh.gradle.ktlint")
 
 dependencies {
     // WEB

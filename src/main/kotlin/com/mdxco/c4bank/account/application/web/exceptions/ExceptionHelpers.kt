@@ -12,9 +12,9 @@ object ExceptionHelpers {
         return ResponseEntity(
             ResponseCode(
                 code = errorCode.name,
-                message = errorCode.message
+                message = errorCode.message,
             ),
-            errorCode.status
+            errorCode.status,
         )
     }
 }

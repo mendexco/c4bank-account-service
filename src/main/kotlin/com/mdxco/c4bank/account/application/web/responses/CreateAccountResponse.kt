@@ -8,6 +8,7 @@ data class CreateAccountResponse(
     val accountNumber: String,
 )
 
-fun Account.toCreateAccountResponse() = CreateAccountResponse(
-    accountNumber = accountNumber!!
-)
+fun Account.toCreateAccountResponse() =
+    CreateAccountResponse(
+        accountNumber = accountNumber!!,
+    )

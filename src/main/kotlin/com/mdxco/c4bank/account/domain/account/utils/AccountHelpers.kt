@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class AccountHelpers(
-    private val accountGateway: AccountGateway
+    private val accountGateway: AccountGateway,
 ) {
     /**
      * This method calculates the next account number based on the latest account number

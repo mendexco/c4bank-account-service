@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class AddressProducerImpl(
-    private val kafkaTemplate: KafkaTemplate<String, Map<String, Any>>
+    private val kafkaTemplate: KafkaTemplate<String, Map<String, Any>>,
 ) : AddressProducer {
     override fun verifyAddressUses(addressId: String) {
         kafkaTemplate.send("addressQueue", mapOf("addressId" to addressId))

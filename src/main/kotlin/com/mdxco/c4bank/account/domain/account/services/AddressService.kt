@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AddressService(
     private val addressGateway: AddressGateway,
-    private val addressProducer: AddressProducer
+    private val addressProducer: AddressProducer,
 ) {
     fun getAddress(id: String): Address? {
         return addressGateway.getAddress(id)
@@ -36,7 +36,10 @@ class AddressService(
     }
 
     @Transactional
-    fun updateAddress(addressFoundById: Address, addressUpdates: Address?): Address {
+    fun updateAddress(
+        addressFoundById: Address,
+        addressUpdates: Address?,
+    ): Address {
         if (addressUpdates == null) return addressFoundById
         if (addressFoundById.isEqual(addressUpdates)) return addressFoundById
 

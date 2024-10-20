@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class AccountService(
     private val accountGateway: AccountGateway,
-    private val accountHelpers: AccountHelpers
+    private val accountHelpers: AccountHelpers,
 ) {
     fun getAccount(id: String): Account? {
         return accountGateway.getById(id)
@@ -32,29 +32,37 @@ class AccountService(
     }
 
     @Transactional
-    fun updateAccount(accountFoundById: Account, accountUpdates: AccountUpdate): Account {
-        val updatedAccount = accountGateway.saveAccount(
-            accountFoundById.copy(
-                address = accountUpdates.address ?: accountFoundById.address,
-                phone = accountUpdates.phone ?: accountFoundById.phone
+    fun updateAccount(
+        accountFoundById: Account,
+        accountUpdates: AccountUpdate,
+    ): Account {
+        val updatedAccount =
+            accountGateway.saveAccount(
+                accountFoundById.copy(
+                    address = accountUpdates.address ?: accountFoundById.address,
+                    phone = accountUpdates.phone ?: accountFoundById.phone,
+                ),
             )
-        )
 
         return updatedAccount
     }
 
-    private fun toggleAccountStatus(accountId: String, status: AccountStatus): Account {
+    private fun toggleAccountStatus(
+        accountId: String,
+        status: AccountStatus,
+    ): Account {
         val account = getAccount(accountId) ?: throw AccountNotFoundException()
 
         if (account.status == status) {
             return account
         }
 
-        val updatedAccount = accountGateway.saveAccount(
-            account.copy(
-                status = status
+        val updatedAccount =
+            accountGateway.saveAccount(
+                account.copy(
+                    status = status,
+                ),
             )
-        )
 
         return updatedAccount
     }

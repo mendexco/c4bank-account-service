@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class AddressGatewayImpl(
-    private val addressRepository: AddressRepository
+    private val addressRepository: AddressRepository,
 ) : AddressGateway {
     override fun addAddress(address: Address): Address {
         return addressRepository.saveAndFlush(address.toModel()).toDomain()

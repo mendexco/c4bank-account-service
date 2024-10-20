@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 @Service
 class AccountFacade(
     private val accountService: AccountService,
-    private val addressService: AddressService
+    private val addressService: AddressService,
 ) {
     fun createAccount(account: Account): Account {
         return LockingHelpers.withLock {
@@ -22,7 +22,10 @@ class AccountFacade(
         }
     }
 
-    fun updateAccount(accountId: String, accountUpdates: AccountUpdate): Account {
+    fun updateAccount(
+        accountId: String,
+        accountUpdates: AccountUpdate,
+    ): Account {
         if (accountUpdates.address?.isNullOrBlank() != false && accountUpdates.phone.isNullOrBlank()) {
             throw InsufficientDataToUpdateException()
         }
@@ -33,7 +36,7 @@ class AccountFacade(
 
             return@withLock accountService.updateAccount(
                 accountFoundById,
-                accountUpdates.copy(address = addressUpdated)
+                accountUpdates.copy(address = addressUpdated),
             )
         }
     }

@@ -46,9 +46,9 @@ class GlobalExceptionHandling {
             ResponseCodeWithBodyMap(
                 body = errors,
                 code = ErrorCodes.INVALID_REQUEST_DATA.name,
-                message = ErrorCodes.INVALID_REQUEST_DATA.message
+                message = ErrorCodes.INVALID_REQUEST_DATA.message,
             ),
-            ErrorCodes.INVALID_REQUEST_DATA.status
+            ErrorCodes.INVALID_REQUEST_DATA.status,
         )
     }
 

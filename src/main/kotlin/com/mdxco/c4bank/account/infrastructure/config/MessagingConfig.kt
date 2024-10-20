@@ -18,7 +18,9 @@ import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.springframework.kafka.support.serializer.JsonSerializer
 
 @Configuration
-class KafkaConfig(private val kafkaProperties: KafkaProperties) {
+class MessagingConfig(
+    private val kafkaProperties: KafkaProperties,
+) {
     private val bootstrapServers = "${System.getenv("KAFKA_URL")}:${System.getenv("KAFKA_INTERNAL_PORT")}"
 
     @Bean
@@ -31,9 +33,7 @@ class KafkaConfig(private val kafkaProperties: KafkaProperties) {
     }
 
     @Bean
-    fun kafkaTemplate(): KafkaTemplate<String, Map<String, Any>> {
-        return KafkaTemplate(producerFactory())
-    }
+    fun kafkaTemplate(): KafkaTemplate<String, Map<String, Any>> = KafkaTemplate(producerFactory())
 
     @Bean
     fun consumerFactory(): ConsumerFactory<String, String> {

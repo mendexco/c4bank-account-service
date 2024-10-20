@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class AccountGatewayImpl(
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
 ) : AccountGateway {
     override fun checkIfAccountIsCreated(taxIdentifier: String): Boolean {
         return accountRepository.existsByTaxIdentifier(taxIdentifier)
