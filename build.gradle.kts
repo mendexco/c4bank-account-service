@@ -27,21 +27,45 @@ repositories {
 }
 
 dependencies {
+    // WEB
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.springframework.boot:spring-boot-starter-validation:3.3.4")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
+    // JSON
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // KOTLIN
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+
+    // VALIDATION
+    implementation("org.springframework.boot:spring-boot-starter-validation:3.3.4")
+
+    // JPA
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
+    implementation("org.postgresql:postgresql:42.7.4")
+    runtimeOnly("com.h2database:h2")
+
+    // KAFKA
     implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+
+    // FLYWAY
+    // implementation("org.flywaydb:flyway-core")
+
+    // UTILITIES
+    implementation("de.huxhorn.sulky:de.huxhorn.sulky.ulid:8.3.0")
+
+    // LOMBOK
     compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
     annotationProcessor("org.projectlombok:lombok")
+
+    // TESTING
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // DEVELOPMENT
     developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 }
 

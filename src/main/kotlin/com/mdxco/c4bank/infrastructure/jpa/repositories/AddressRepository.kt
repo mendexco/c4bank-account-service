@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.infrastructure.h2.repositories
+package com.mdxco.c4bank.infrastructure.jpa.repositories
 
 import com.mdxco.c4bank.infrastructure.models.address.AddressModel
 import org.springframework.data.jpa.repository.JpaRepository

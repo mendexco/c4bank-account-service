@@ -19,7 +19,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 
 @Configuration
 class KafkaConfig(private val kafkaProperties: KafkaProperties) {
-    private val bootstrapServers = "${System.getenv("KAFKA_URL")}:${System.getenv("KAFKA_PORT")}"
+    private val bootstrapServers = "${System.getenv("KAFKA_URL")}:${System.getenv("KAFKA_INTERNAL_PORT")}"
 
     @Bean
     fun producerFactory(): ProducerFactory<String, Map<String, Any>> {

@@ -2,7 +2,7 @@ package com.mdxco.c4bank.infrastructure.gateways.account
 
 import com.mdxco.c4bank.domain.account.entities.Account
 import com.mdxco.c4bank.domain.account.gateways.AccountGateway
-import com.mdxco.c4bank.infrastructure.h2.repositories.AccountRepository
+import com.mdxco.c4bank.infrastructure.jpa.repositories.AccountRepository
 import com.mdxco.c4bank.infrastructure.models.account.toModel
 import org.springframework.stereotype.Component
 

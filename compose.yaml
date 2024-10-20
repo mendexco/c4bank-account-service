@@ -1,10 +1,10 @@
-version: '3.8'
-name: c4bank-local
+name: c4bank-account-service-dev
 
 services:
   zookeeper:
     image: 'confluentinc/cp-zookeeper:latest'
-    container_name: 'zookeeper-local'
+    container_name: 'zookeeper-account-service-dev'
+    restart: always
     environment:
       ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_PORT}
       ZOOKEEPER_TICK_TIME: 2000
@@ -17,24 +17,48 @@ services:
 
   kafka:
     image: 'confluentinc/cp-kafka:latest'
-    container_name: 'kafka-local'
+    container_name: 'kafka-account-service-dev'
+    restart: always
     depends_on:
       - zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:${ZOOKEEPER_PORT}
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_URL}:${KAFKA_PORT}
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://${KAFKA_URL}:${KAFKA_INTERNAL_PORT}
     ports:
-      - '${KAFKA_PORT}:${KAFKA_PORT}'
+      - '${KAFKA_INTERNAL_PORT}:${KAFKA_INTERNAL_PORT}'
     volumes:
       - kafka_vol:/var/lib/kafka/data
       - kafka_vol:/var/lib/kafka/log
       - kafka_vol:/etc/kafka/secrets
+
+  postgres:
+    image: postgres:17
+    container_name: 'postgres-account-service-dev'
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - '${DB_PORT}:${DB_PORT}'
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+
+  adminer:
+    image: adminer:latest
+    container_name: 'adminer-account-service-dev'
+    restart: always
+    depends_on:
+      - postgres
+    ports:
+      - '${ADMINER_PORT}:${ADMINER_PORT}'
 
 volumes:
   zookeeper_data_vol:
   zookeeper_log_vol:
   zookeeper_secrets_vol:
   kafka_vol:
+  postgres_vol:

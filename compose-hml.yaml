@@ -1,9 +1,9 @@
-name: c4bank-account-service-prod
+name: c4bank-account-service-hml
 
 services:
   zookeeper:
     image: 'confluentinc/cp-zookeeper:latest'
-    container_name: 'zookeeper-account-service-prod'
+    container_name: 'zookeeper-account-service-hml'
     restart: always
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
@@ -19,7 +19,7 @@ services:
 
   kafka:
     image: 'confluentinc/cp-kafka:latest'
-    container_name: 'kafka-account-service-prod'
+    container_name: 'kafka-account-service-hml'
     restart: always
     depends_on:
       - zookeeper
@@ -43,7 +43,7 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: 'postgres-account-service-prod'
+    container_name: 'postgres-account-service-hml'
     restart: always
     environment:
       POSTGRES_DB: c4bank-account-service-sql
@@ -57,8 +57,10 @@ services:
       - c4bank-network
 
   c4bank:
-    image: 'mendesco/c4bank-account-service:latest'
-    container_name: 'c4bank-account-service-prod'
+    build:
+      context: .
+      dockerfile: Dockerfile # needs to run './gradlew build' before and exclude current image
+    container_name: 'c4bank-account-service-hml'
     restart: always
     ports:
       - '7000:7000'
