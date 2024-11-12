@@ -1,9 +1,11 @@
-package com.mdxco.c4bank.account.domain.account.gateways
+package com.mdxco.c4bank.account.domain.address
 
-import com.mdxco.c4bank.account.domain.account.entities.Address
+import com.mdxco.c4bank.account.domain.address.entities.Address
 
 interface AddressGateway {
     fun addAddress(address: Address): Address
+
+    fun checkIfAddressIsInUse(addressId: String): Boolean
 
     fun getAddress(id: String): Address?
 

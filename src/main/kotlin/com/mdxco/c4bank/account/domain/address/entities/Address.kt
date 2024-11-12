@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.account.domain.account.entities
+package com.mdxco.c4bank.account.domain.address.entities
 
 data class Address(
     val id: String? = null,
@@ -12,7 +12,5 @@ data class Address(
 ) {
     fun isNullOrBlank() = listOf(id, city, country, neighborhood, number, postalCode, state, street).all { it.isNullOrBlank() }
 
-    fun isEqual(other: Address?): Boolean {
-        return this.copy(id = null) == other?.copy(id = null)
-    }
+    fun isEqual(other: Address?): Boolean = this.copy(id = null) == other?.copy(id = null)
 }

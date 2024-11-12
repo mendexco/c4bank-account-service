@@ -1,6 +1,6 @@
 package com.mdxco.c4bank.account.infrastructure.models.address
 
-import com.mdxco.c4bank.account.domain.account.entities.Address
+import com.mdxco.c4bank.account.domain.address.entities.Address
 import de.huxhorn.sulky.ulid.ULID
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

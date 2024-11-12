@@ -1,6 +1,6 @@
 package com.mdxco.c4bank.account.infrastructure.messaging.kafka.address
 
-import com.mdxco.c4bank.account.domain.account.messaging.address.AddressProducer
+import com.mdxco.c4bank.account.domain.address.messaging.AddressProducer
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Service
 

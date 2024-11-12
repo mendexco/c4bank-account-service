@@ -2,7 +2,7 @@ package com.mdxco.c4bank.account.application.web.requests
 
 import com.mdxco.c4bank.account.commons.constants.RegexpMatches
 import com.mdxco.c4bank.account.commons.constants.ResponseMessages
-import com.mdxco.c4bank.account.domain.account.entities.Address
+import com.mdxco.c4bank.account.domain.address.entities.Address
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
