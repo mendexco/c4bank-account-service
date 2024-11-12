@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.account.application.web.exceptions
+package com.mdxco.c4bank.account.application.exceptions
 
 data class ResponseCodeWithBodyMap(
     val code: String,

@@ -1,9 +1,8 @@
-package com.mdxco.c4bank.account.domain.account.utils
+package com.mdxco.c4bank.account.commons.helpers
 
-import com.mdxco.c4bank.account.domain.account.gateways.AccountGateway
-import org.springframework.stereotype.Component
+import com.mdxco.c4bank.account.domain.account.AccountGateway
+import com.mdxco.c4bank.account.domain.account.entities.values.TaxIdentifier
 
-@Component
 class AccountHelpers(
     private val accountGateway: AccountGateway,
 ) {
@@ -27,9 +26,7 @@ class AccountHelpers(
      * @param nextNumber the next account number
      * @return the formatted account number
      */
-    private fun formatAccountNumber(nextNumber: Long): String {
-        return String.format("%06d-%d", nextNumber / 10, nextNumber % 10)
-    }
+    private fun formatAccountNumber(nextNumber: Long): String = String.format("%06d-%d", nextNumber / 10, nextNumber % 10)
 
     /**
      * This method generates the next account number
@@ -48,16 +45,5 @@ class AccountHelpers(
      * @param taxIdentifier the tax identifier of the account
      * @return true if the account is created, false otherwise
      */
-    fun isAccountCreated(taxIdentifier: String): Boolean {
-        return accountGateway.checkIfAccountIsCreated(taxIdentifier)
-    }
-
-    /**
-     * This method checks if an address is in use
-     * @param addressId the address id
-     * @return true if the address is in use, false otherwise
-     */
-    fun isAddressInUse(addressId: String): Boolean {
-        return accountGateway.checkIfAddressIsInUse(addressId)
-    }
+    fun isAccountCreated(taxIdentifier: TaxIdentifier): Boolean = accountGateway.checkIfAccountIsCreated(taxIdentifier)
 }

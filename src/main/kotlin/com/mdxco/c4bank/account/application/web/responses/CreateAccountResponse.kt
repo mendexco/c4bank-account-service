@@ -10,5 +10,5 @@ data class CreateAccountResponse(
 
 fun Account.toCreateAccountResponse() =
     CreateAccountResponse(
-        accountNumber = accountNumber!!,
+        accountNumber = accountNumber,
     )

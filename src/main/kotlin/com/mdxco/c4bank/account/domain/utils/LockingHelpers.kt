@@ -1,4 +1,4 @@
-package com.mdxco.c4bank.account.commons.utils
+package com.mdxco.c4bank.account.domain.utils
 
 import java.util.concurrent.locks.ReentrantLock
 

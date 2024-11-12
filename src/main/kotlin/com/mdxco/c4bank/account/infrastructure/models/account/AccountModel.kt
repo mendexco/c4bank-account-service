@@ -1,7 +1,10 @@
 package com.mdxco.c4bank.account.infrastructure.models.account
 
 import com.mdxco.c4bank.account.domain.account.entities.Account
-import com.mdxco.c4bank.account.domain.account.entities.enums.AccountStatus
+import com.mdxco.c4bank.account.domain.account.entities.values.Name
+import com.mdxco.c4bank.account.domain.account.entities.values.Phone
+import com.mdxco.c4bank.account.domain.account.entities.values.TaxIdentifier
+import com.mdxco.c4bank.account.domain.account.utils.AccountStatus
 import com.mdxco.c4bank.account.infrastructure.models.address.AddressModel
 import com.mdxco.c4bank.account.infrastructure.models.address.toModel
 import de.huxhorn.sulky.ulid.ULID
@@ -29,16 +32,16 @@ data class AccountModel(
     @Column(nullable = false)
     val balance: BigDecimal,
     @Column(nullable = false)
-    val name: String,
+    val name: Name,
     @Column
-    val phone: String?,
+    val phone: Phone?,
     @Column(nullable = false)
     val status: String,
     @Column(nullable = false)
-    val taxIdentifier: String,
+    val taxIdentifier: TaxIdentifier,
 ) {
     fun toDomain() =
-        Account(
+        Account.of(
             accountNumber = accountNumber,
             address = address.toDomain(),
             id = id,
@@ -53,7 +56,7 @@ data class AccountModel(
 
 fun Account.toModel() =
     AccountModel(
-        accountNumber = accountNumber!!,
+        accountNumber = accountNumber,
         address = address.toModel(),
         id = id ?: ULID().nextULID(),
         balance = balance ?: BigDecimal.ZERO,
@@ -61,5 +64,5 @@ fun Account.toModel() =
         phone = phone,
         status = status?.name ?: AccountStatus.ACTIVE.name,
         taxIdentifier = taxIdentifier,
-        version = version ?: 0,
+        version = version,
     )
