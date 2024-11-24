@@ -4,14 +4,15 @@ import com.mdxco.c4bank.account.domain.account.AccountGateway
 import com.mdxco.c4bank.account.domain.account.entities.Account
 import com.mdxco.c4bank.account.domain.account.entities.values.TaxIdentifier
 import com.mdxco.c4bank.account.infrastructure.jpa.repositories.AccountRepository
-import com.mdxco.c4bank.account.infrastructure.models.account.toModel
+import com.mdxco.c4bank.account.infrastructure.models.toModel
 import org.springframework.stereotype.Component
 
 @Component
 class AccountGatewayImpl(
     private val accountRepository: AccountRepository,
 ) : AccountGateway {
-    override fun checkIfAccountIsCreated(taxIdentifier: TaxIdentifier): Boolean = accountRepository.existsByTaxIdentifier(taxIdentifier)
+    override fun checkIfAccountIsCreated(taxIdentifier: TaxIdentifier): Boolean =
+        accountRepository.existsByTaxIdentifier(taxIdentifier.value)
 
     override fun getLatestAccountNumber(): String? = accountRepository.findTopByOrderByIdDesc()?.accountNumber
 

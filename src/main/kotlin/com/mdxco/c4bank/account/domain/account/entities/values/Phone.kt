@@ -9,12 +9,7 @@ value class Phone(
     val value: String,
 ) {
     init {
-        require(value.length in PHONE_MIN_LENGTH..PHONE_MAX_LENGTH) {
-            throw InvalidArgumentException(
-                ErrorCodes.LENGTH_PHONE,
-            )
-        }
-        require(value.matches(Regex(RegexpMatches.PHONE_NUMBER))) { throw InvalidArgumentException(ErrorCodes.INVALID_PHONE) }
+        require(value.matches(RegexpMatches.PHONE_NUMBER)) { throw InvalidArgumentException(ErrorCodes.INVALID_PHONE) }
     }
 
     fun isBlank(): Boolean = value.isBlank()

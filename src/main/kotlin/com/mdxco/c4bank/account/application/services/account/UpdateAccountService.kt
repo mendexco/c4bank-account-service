@@ -1,10 +1,10 @@
 package com.mdxco.c4bank.account.application.services.account
 
-import com.mdxco.c4bank.account.application.services.address.UpdateAddressService
 import com.mdxco.c4bank.account.domain.account.AccountGateway
 import com.mdxco.c4bank.account.domain.account.entities.Account
 import com.mdxco.c4bank.account.domain.account.entities.AccountUpdates
-import com.mdxco.c4bank.account.domain.account.exceptions.InsufficientDataToUpdateException
+import com.mdxco.c4bank.account.domain.address.AddressGateway
+import com.mdxco.c4bank.account.domain.address.messaging.AddressProducer
 import com.mdxco.c4bank.account.domain.utils.LockingHelpers
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,8 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UpdateAccountService(
     private val accountGateway: AccountGateway,
+    private val addressGateway: AddressGateway,
+    private val addressProducer: AddressProducer,
     private val getAccountService: GetAccountService,
-    private val updateAddressService: UpdateAddressService,
 ) {
     /**
      * Updates an account with the given account updates.
@@ -26,17 +27,17 @@ class UpdateAccountService(
         accountId: String,
         accountUpdates: AccountUpdates,
     ): Account {
-        if (Account.haveInsufficientDataToUpdate(accountUpdates)) {
-            throw InsufficientDataToUpdateException()
-        }
-
-        val accountFoundById = getAccountService.byId(accountId)
-        val addressUpdated = updateAddressService.execute(accountFoundById.address, accountUpdates.address)
-
         return LockingHelpers.withLock {
+            val accountFoundById = getAccountService.byId(accountId)
+            val addressUpdated = accountFoundById.address.update(
+                addressGateway,
+                addressProducer,
+                accountUpdates.address
+            ).first
+
             return@withLock accountFoundById.update(
                 accountGateway,
-                address = addressUpdated.first,
+                address = addressUpdated,
                 phone = accountUpdates.phone,
             )
         }

@@ -1,69 +1,71 @@
 package com.mdxco.c4bank.account.application.web.requests
 
-import com.mdxco.c4bank.account.commons.constants.RegexpMatches
-import com.mdxco.c4bank.account.commons.constants.ResponseMessages
-import com.mdxco.c4bank.account.domain.address.entities.Address
+import com.mdxco.c4bank.account.domain.address.entities.AddressToBeCreated
+import com.mdxco.c4bank.account.domain.address.entities.values.City.Companion.CITY_MAX_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.City.Companion.CITY_MIN_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Country.Companion.COUNTRY_MAX_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Country.Companion.COUNTRY_MIN_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Neighborhood.Companion.NEIGHBORHOOD_MAX_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Neighborhood.Companion.NEIGHBORHOOD_MIN_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Number.Companion.NUMBER_MAX_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Number.Companion.NUMBER_MIN_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.PostalCode.Companion.POSTAL_CODE_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.State.Companion.STATE_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Street.Companion.STREET_MAX_LENGTH
+import com.mdxco.c4bank.account.domain.address.entities.values.Street.Companion.STREET_MIN_LENGTH
 import io.swagger.v3.oas.annotations.media.Schema
-import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
-import jakarta.validation.constraints.Pattern
-import org.hibernate.validator.constraints.Length
 
 data class AccountAddressRequest(
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
-    @Schema(description = "City name", example = "São Paulo")
-    var city: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 60, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
-    @Schema(description = "Country name", example = "Brazil")
-    var country: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
-    @Schema(description = "Neighborhood name", example = "Vila Mariana")
-    var neighborhood: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 1, max = 10, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
-    @Schema(description = "Residence number", example = "123")
-    var number: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Pattern(regexp = RegexpMatches.POSTAL_CODE, message = ResponseMessages.FIELD_INVALID)
-    @Schema(description = "Postal code", example = "09990412")
-    var postalCode: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Pattern(regexp = RegexpMatches.STATE, message = ResponseMessages.FIELD_INVALID)
-    @Schema(description = "State name", example = "São Paulo")
-    var state: String,
-    @field:NotBlank(message = ResponseMessages.FIELD_NOT_BLANK)
-    @field:NotNull(message = ResponseMessages.FIELD_REQUIRED)
-    @field:Length(min = 2, max = 100, message = ResponseMessages.FIELD_LENGTH_NOT_VALID)
-    @Schema(description = "Street name", example = "Rua Vergueiro")
-    var street: String,
+    @Schema(
+        description = "City name",
+        example = "São Paulo",
+        minLength = CITY_MIN_LENGTH,
+        maxLength = CITY_MAX_LENGTH
+    ) var city: String,
+    @Schema(
+        description = "Country name",
+        example = "Brazil",
+        minLength = COUNTRY_MIN_LENGTH,
+        maxLength = COUNTRY_MAX_LENGTH
+    ) var country: String,
+    @Schema(
+        description = "Neighborhood name",
+        example = "Vila Mariana",
+        minLength = NEIGHBORHOOD_MIN_LENGTH,
+        maxLength = NEIGHBORHOOD_MAX_LENGTH
+    ) var neighborhood: String,
+    @Schema(
+        description = "Residence number",
+        example = "123",
+        minLength = NUMBER_MIN_LENGTH,
+        maxLength = NUMBER_MAX_LENGTH
+    ) var number: String,
+    @Schema(
+        description = "Postal code",
+        example = "09990412",
+        minLength = POSTAL_CODE_LENGTH,
+        maxLength = POSTAL_CODE_LENGTH
+    ) var postalCode: String,
+    @Schema(
+        description = "State abbreviation",
+        example = "SP",
+        minLength = STATE_LENGTH,
+        maxLength = STATE_LENGTH
+    ) var state: String,
+    @Schema(
+        description = "Street name",
+        example = "Rua Vergueiro",
+        minLength = STREET_MIN_LENGTH,
+        maxLength = STREET_MAX_LENGTH
+    ) var street: String,
 ) {
-    init {
-        city = city.trim()
-        country = country.trim()
-        neighborhood = neighborhood.trim()
-        number = number.trim()
-        postalCode = postalCode.trim()
-        state = state.trim()
-        street = street.trim()
-    }
-
-    fun toDomain() =
-        Address(
-            city = city,
-            country = country,
-            neighborhood = neighborhood,
-            number = number,
-            postalCode = postalCode,
-            state = state,
-            street = street,
-        )
+    fun toDomain() = AddressToBeCreated.of(
+        city = city,
+        country = country,
+        neighborhood = neighborhood,
+        number = number,
+        postalCode = postalCode,
+        state = state,
+        street = street,
+    )
 }

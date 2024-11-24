@@ -1,12 +1,13 @@
 package com.mdxco.c4bank.account.domain.account.entities
 
-import com.mdxco.c4bank.account.commons.helpers.AccountHelpers
 import com.mdxco.c4bank.account.domain.account.AccountGateway
+import com.mdxco.c4bank.account.domain.account.entities.values.AccountNumber
 import com.mdxco.c4bank.account.domain.account.entities.values.Name
 import com.mdxco.c4bank.account.domain.account.entities.values.Phone
 import com.mdxco.c4bank.account.domain.account.entities.values.TaxIdentifier
 import com.mdxco.c4bank.account.domain.account.exceptions.AccountAlreadyExistsException
 import com.mdxco.c4bank.account.domain.account.utils.AccountStatus
+import com.mdxco.c4bank.account.domain.address.AddressGateway
 import com.mdxco.c4bank.account.domain.address.entities.Address
 import java.math.BigDecimal
 
@@ -25,25 +26,19 @@ import java.math.BigDecimal
 class Account private constructor(
     val id: String? = null,
     val version: Long = 0L,
-    val accountNumber: String,
+    val accountNumber: AccountNumber,
     address: Address,
-    balance: BigDecimal = BigDecimal.ZERO,
-    name: Name,
+    val balance: BigDecimal = BigDecimal.ZERO,
+    val name: Name,
     phone: Phone? = null,
     status: AccountStatus = AccountStatus.ACTIVE,
-    taxIdentifier: TaxIdentifier,
+    val taxIdentifier: TaxIdentifier,
 ) {
     var address: Address = address
-        private set
-    var balance: BigDecimal? = balance
-        private set
-    var name: Name = name
         private set
     var phone: Phone? = phone
         private set
     var status: AccountStatus? = status
-        private set
-    var taxIdentifier: TaxIdentifier = taxIdentifier
         private set
 
     /**
@@ -51,26 +46,24 @@ class Account private constructor(
      * @param accountGateway the gateway to save the account
      * @return the reactivated account
      */
-    fun reactivate(accountGateway: AccountGateway) =
-        apply {
-            if (this.status == AccountStatus.ACTIVE) return this
+    fun reactivate(accountGateway: AccountGateway) = run {
+        if (this.status == AccountStatus.ACTIVE) this
 
-            this.status = AccountStatus.ACTIVE
-            return accountGateway.saveAccount(this)
-        }
+        this.status = AccountStatus.ACTIVE
+        accountGateway.saveAccount(this)
+    }
 
     /**
      * Deactivates an account if it is active.
      * @param accountGateway the gateway to save the account
      * @return the deactivated account
      */
-    fun deactivate(accountGateway: AccountGateway) =
-        apply {
-            if (this.status == AccountStatus.INACTIVE) return this
+    fun deactivate(accountGateway: AccountGateway) = run {
+        if (this.status == AccountStatus.INACTIVE) this
 
-            this.status = AccountStatus.INACTIVE
-            return accountGateway.saveAccount(this)
-        }
+        this.status = AccountStatus.INACTIVE
+        accountGateway.saveAccount(this)
+    }
 
     /**
      * Updates the account with the given data.
@@ -83,67 +76,80 @@ class Account private constructor(
         accountGateway: AccountGateway,
         address: Address?,
         phone: Phone?,
-    ) = apply {
+    ) = run {
         this.address = address ?: this.address
         this.phone = phone ?: this.phone
         accountGateway.saveAccount(this)
     }
 
     companion object {
-        fun of(
+        fun fromModel(
             id: String,
             version: Long,
-            accountNumber: String,
+            accountNumber: AccountNumber,
             address: Address,
             balance: BigDecimal,
             name: Name,
             phone: Phone?,
             status: AccountStatus,
             taxIdentifier: TaxIdentifier,
-        ): Account =
-            Account(
-                id = id,
-                version = version,
-                accountNumber = accountNumber,
-                address = address,
-                balance = balance,
-                name = name,
-                phone = phone,
-                status = status,
-                taxIdentifier = taxIdentifier,
-            )
+        ) = Account(
+            id = id,
+            version = version,
+            accountNumber = accountNumber,
+            address = address,
+            balance = balance,
+            name = name,
+            phone = phone,
+            status = status,
+            taxIdentifier = taxIdentifier,
+        )
+
+        fun fromAccountToBeCreated(
+            accountNumber: AccountNumber,
+            address: Address,
+            name: Name,
+            phone: Phone?,
+            taxIdentifier: TaxIdentifier,
+        ) = Account(
+            accountNumber = accountNumber,
+            address = address,
+            name = name,
+            phone = phone,
+            taxIdentifier = taxIdentifier,
+        )
 
         /**
          * Creates an account with the given data.
          * @param accountGateway the gateway to save the account
+         * @param addressGateway the gateway to save the address
          * @param accountToBeCreated the account data
          * @return the created account
          */
         fun create(
             accountGateway: AccountGateway,
+            addressGateway: AddressGateway,
             accountToBeCreated: AccountToBeCreated,
-        ): Account {
-            val accountHelpers = AccountHelpers(accountGateway)
-
-            if (accountHelpers.isAccountCreated(accountToBeCreated.taxIdentifier)) {
+        ) = run {
+            if (isAccountCreated(accountGateway, accountToBeCreated.taxIdentifier)) {
                 throw AccountAlreadyExistsException()
             }
 
-            val account =
-                Account(
-                    accountNumber = accountHelpers.generateNextAccountNumber(),
-                    address = accountToBeCreated.address,
-                    name = accountToBeCreated.name,
-                    phone = accountToBeCreated.phone,
-                    taxIdentifier = accountToBeCreated.taxIdentifier,
+            accountGateway.saveAccount(
+                accountToBeCreated.toEntity(
+                    accountGateway,
+                    addressGateway
                 )
-
-            return accountGateway.saveAccount(account)
+            )
         }
 
-        private fun haveSufficientDataToUpdate(accountUpdates: AccountUpdates): Boolean =
-            accountUpdates.address?.isNullOrBlank() == false || accountUpdates.phone?.isBlank() == false
-
-        fun haveInsufficientDataToUpdate(accountUpdates: AccountUpdates): Boolean = !haveSufficientDataToUpdate(accountUpdates)
+        /**
+         * This method checks if an account is created
+         * @param accountGateway the gateway to check if the account is created
+         * @param taxIdentifier the tax identifier of the account
+         * @return true if the account is created, false otherwise
+         */
+        fun isAccountCreated(accountGateway: AccountGateway, taxIdentifier: TaxIdentifier) =
+            accountGateway.checkIfAccountIsCreated(taxIdentifier)
     }
 }

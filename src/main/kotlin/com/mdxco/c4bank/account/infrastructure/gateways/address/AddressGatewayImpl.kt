@@ -2,9 +2,10 @@ package com.mdxco.c4bank.account.infrastructure.gateways.address
 
 import com.mdxco.c4bank.account.domain.address.AddressGateway
 import com.mdxco.c4bank.account.domain.address.entities.Address
+import com.mdxco.c4bank.account.domain.address.entities.values.PostalCode
 import com.mdxco.c4bank.account.infrastructure.jpa.repositories.AccountRepository
 import com.mdxco.c4bank.account.infrastructure.jpa.repositories.AddressRepository
-import com.mdxco.c4bank.account.infrastructure.models.address.toModel
+import com.mdxco.c4bank.account.infrastructure.models.toModel
 import org.springframework.stereotype.Component
 
 @Component
@@ -18,8 +19,8 @@ class AddressGatewayImpl(
 
     override fun getAddress(id: String): Address? = addressRepository.findById(id).orElse(null)?.toDomain()
 
-    override fun getAddressesByPostalCode(postalCode: String): List<Address> =
-        addressRepository.findAllAddressByPostalCode(postalCode).map {
+    override fun getAddressesByPostalCode(postalCode: PostalCode): List<Address> =
+        addressRepository.findAllAddressByPostalCode(postalCode.value).map {
             it.toDomain()
         }
 
