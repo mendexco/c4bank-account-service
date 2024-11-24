@@ -43,7 +43,7 @@ class AddressModel {
     lateinit var street: String
 
     fun toDomain() =
-        Address.fromModel(
+        Address.of(
             city = City.fromString(city),
             country = Country.fromString(country),
             id = id,

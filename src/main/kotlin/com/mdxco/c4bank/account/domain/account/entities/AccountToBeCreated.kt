@@ -19,7 +19,7 @@ class AccountToBeCreated private constructor(
         accountGateway: AccountGateway,
         addressGateway: AddressGateway
     ) =
-        Account.fromAccountToBeCreated(
+        Account.of(
             accountNumber = AccountNumber.generateNextAccountNumber(accountGateway),
             address = Address.create(addressGateway, address),
             name = name,

@@ -48,16 +48,16 @@ class AccountModel {
     lateinit var taxIdentifier: String
 
     fun toDomain() =
-        Account.fromModel(
+        Account.of(
+            id = id,
+            version = version,
             accountNumber = AccountNumber.fromString(accountNumber),
             address = address.toDomain(),
-            id = id,
             balance = balance,
             name = Name.fromString(name),
             phone = Phone.fromString(phone),
             status = AccountStatus.valueOf(status),
             taxIdentifier = TaxIdentifier.fromString(taxIdentifier),
-            version = version,
         )
 
     companion object {

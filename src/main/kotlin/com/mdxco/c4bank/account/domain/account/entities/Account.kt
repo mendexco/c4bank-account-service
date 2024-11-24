@@ -84,15 +84,15 @@ class Account private constructor(
     }
 
     companion object {
-        fun fromModel(
-            id: String,
-            version: Long,
+        fun of(
+            id: String? = null,
+            version: Long = 0L,
             accountNumber: AccountNumber,
             address: Address,
-            balance: BigDecimal,
+            balance: BigDecimal = BigDecimal.ZERO,
             name: Name,
-            phone: Phone?,
-            status: AccountStatus,
+            phone: Phone? = null,
+            status: AccountStatus = AccountStatus.ACTIVE,
             taxIdentifier: TaxIdentifier,
         ) = Account(
             id = id,
@@ -103,20 +103,6 @@ class Account private constructor(
             name = name,
             phone = phone,
             status = status,
-            taxIdentifier = taxIdentifier,
-        )
-
-        fun fromAccountToBeCreated(
-            accountNumber: AccountNumber,
-            address: Address,
-            name: Name,
-            phone: Phone?,
-            taxIdentifier: TaxIdentifier,
-        ) = Account(
-            accountNumber = accountNumber,
-            address = address,
-            name = name,
-            phone = phone,
             taxIdentifier = taxIdentifier,
         )
 

@@ -88,37 +88,19 @@ class Address private constructor(
     }
 
     companion object {
-        fun fromModel(
+        fun of(
             city: City,
             country: Country,
-            id: String,
+            id: String? = null,
             neighborhood: Neighborhood,
             number: Number,
             postalCode: PostalCode,
             state: State,
-            street: Street,
+            street: Street
         ) = Address(
             city = city,
             country = country,
             id = id,
-            neighborhood = neighborhood,
-            number = number,
-            postalCode = postalCode,
-            state = state,
-            street = street,
-        )
-
-        fun fromAddressToBeCreated(
-            city: City,
-            country: Country,
-            neighborhood: Neighborhood,
-            number: Number,
-            postalCode: PostalCode,
-            state: State,
-            street: Street,
-        ) = Address(
-            city = city,
-            country = country,
             neighborhood = neighborhood,
             number = number,
             postalCode = postalCode,

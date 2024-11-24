@@ -25,7 +25,7 @@ class AddressToBeCreated private constructor(
     fun isNullOrBlank() =
         listOf(city, country, neighborhood, number, postalCode, state, street).all { it.toString().isBlank() }
 
-    fun toEntity() = Address.fromAddressToBeCreated(
+    fun toEntity() = Address.of(
         city = city,
         country = country,
         neighborhood = neighborhood,
