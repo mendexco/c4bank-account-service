@@ -6,6 +6,7 @@ import com.mdxco.c4bank.account.domain.account.entities.values.Name
 import com.mdxco.c4bank.account.domain.account.entities.values.Phone
 import com.mdxco.c4bank.account.domain.account.entities.values.TaxIdentifier
 import com.mdxco.c4bank.account.domain.account.exceptions.AccountAlreadyExistsException
+import com.mdxco.c4bank.account.domain.account.exceptions.AccountNotFoundException
 import com.mdxco.c4bank.account.domain.account.utils.AccountStatus
 import com.mdxco.c4bank.account.domain.address.AddressGateway
 import com.mdxco.c4bank.account.domain.address.entities.Address
@@ -120,11 +121,24 @@ class Account private constructor(
         )
 
         /**
+         * Gets an account by its ULID id.
+         * @param accountGateway the gateway to get the account
+         * @param id the ULID id of the account to be retrieved
+         * @return the account that was retrieved
+         * @throws AccountNotFoundException if the account was not found
+         */
+        fun get(
+            accountGateway: AccountGateway,
+            id: String,
+        ) = accountGateway.getById(id) ?: throw AccountNotFoundException()
+
+        /**
          * Creates an account with the given data.
          * @param accountGateway the gateway to save the account
          * @param addressGateway the gateway to save the address
          * @param accountToBeCreated the account data
          * @return the created account
+         * @throws AccountAlreadyExistsException if the account already exists
          */
         fun create(
             accountGateway: AccountGateway,
